@@ -27,9 +27,7 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Invalid credential');
     }
-    const saltRounds = this.configService.get('auth.saltRounds');
-    const hash = await bcrypt.hash(signInDto.password, saltRounds);
-    const isMatch = await bcrypt.compare(user.password, hash);
+    const isMatch = await bcrypt.compare(signInDto.password, user.password);
     if (!isMatch) {
       throw new UnauthorizedException('Invalid credential');
     }
